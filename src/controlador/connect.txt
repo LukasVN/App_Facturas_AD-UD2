@@ -1,0 +1,6 @@
+# Propiedades para la conexion a base de datos con BasicDataSource
+driverClassName=com.mysql.cj.jdbc.Driver
+username=root
+password=root
+url=jdbc:mysql://192.168.56.101:3306/ejemplo
+setValidationQuery=select 1
