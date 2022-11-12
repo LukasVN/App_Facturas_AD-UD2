@@ -131,6 +131,7 @@ public class Practica_App extends javax.swing.JFrame {
         txtCategoriaP = new javax.swing.JTextField();
         cmb_IVAProd = new javax.swing.JComboBox<>();
         btnBorrarProd = new javax.swing.JButton();
+        btnRestablecerTBLProd = new javax.swing.JButton();
         panelFacturas = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cmbCliente = new javax.swing.JComboBox<>();
@@ -425,6 +426,13 @@ public class Practica_App extends javax.swing.JFrame {
             }
         });
 
+        btnRestablecerTBLProd.setText("Restablecer tabla");
+        btnRestablecerTBLProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestablecerTBLProdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelProductosLayout = new javax.swing.GroupLayout(panelProductos);
         panelProductos.setLayout(panelProductosLayout);
         panelProductosLayout.setHorizontalGroup(
@@ -436,9 +444,11 @@ public class Practica_App extends javax.swing.JFrame {
                         .addGap(3, 3, 3)
                         .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelProductosLayout.createSequentialGroup()
-                                .addComponent(btnBorrarProd, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                .addGap(360, 360, 360)
-                                .addComponent(btnModificarProd))
+                                .addComponent(btnBorrarProd, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                .addGap(181, 181, 181)
+                                .addComponent(btnRestablecerTBLProd, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnModificarProd, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelProductosLayout.createSequentialGroup()
                                 .addComponent(lblPrecioProd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -498,7 +508,8 @@ public class Practica_App extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificarProd)
-                    .addComponent(btnBorrarProd))
+                    .addComponent(btnBorrarProd)
+                    .addComponent(btnRestablecerTBLProd))
                 .addGap(37, 37, 37))
         );
 
@@ -623,10 +634,40 @@ public class Practica_App extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbProductoFactActionPerformed
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-        //if(txtAñadir_IDProd)
-        GestionProducto.CargarFilaProducto(model_Productos, txtAñadir_IDProd.getText().trim(), txtAñadir_NombProd.getText().trim(), 
-                Integer.parseInt(txt_AñadirStock.getText().trim()), Float.parseFloat(txt_AñadirPrecio.getText().trim()), 
-                txtCategoriaP.getText().trim(), Float.parseFloat(cmb_IVAProd.getSelectedItem().toString()));
+        Savepoint save = null;
+        try {           
+            save = Pool.getCurrentConexion().setSavepoint();
+            Boolean existe = false;
+            //Comprobación de si el producto a añadir tiene id y nombre únicos:
+            for(int i=0;i<model_Productos.getRowCount();i++){
+                if(txtAñadir_IDProd.getText().trim().equals(model_Productos.getValueAt(i, 0)) || txtAñadir_NombProd.getText().trim().equals(model_Productos.getValueAt(i, 1))){
+                    existe = true;
+                }
+            }
+            if(existe == true){
+                JOptionPane.showMessageDialog(this, "El ID/Nombre del producto ya existen");
+            }
+            else{
+                try {
+                    GestionProducto.CargarFilaProducto(model_Productos, txtAñadir_IDProd.getText().trim(), txtAñadir_NombProd.getText().trim(),
+                    Integer.parseInt(txt_AñadirStock.getText().trim()), Float.parseFloat(txt_AñadirPrecio.getText().trim()),
+                    txtCategoriaP.getText().trim(), Float.parseFloat(cmb_IVAProd.getSelectedItem().toString()));
+                    GestionProducto.InsertarProductoBD(model_Productos);                   
+                    Pool.getCurrentConexion().commit();
+                    JOptionPane.showMessageDialog(this, "Producto añadido satisfactoriamente");
+                } catch (SQLException ex) {
+                    try {
+                        Pool.getCurrentConexion().rollback(save);
+                        Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex1) {
+                        Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btnAñadirActionPerformed
 
     private void btnAñadirProdFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdFactActionPerformed
@@ -691,15 +732,18 @@ public class Practica_App extends javax.swing.JFrame {
                 if(GestionProducto.ComprobacionProducto((String)model_Productos.getValueAt(tbl_Productos.getSelectedRow(), 0)) == true){
                     JOptionPane.showMessageDialog(this, "El Producto no puede ser borrado debido a que pertenece a una factura");
                 }
-                else{
+                else{           
+                    GestionProducto.BorrarProductoBD(model_Productos, tbl_Productos.getSelectedRow());
                     model_Productos.removeRow(tbl_Productos.getSelectedRow());
-                    
+                    Pool.getCurrentConexion().commit();
+                    JOptionPane.showMessageDialog(this, "Producto borrado satisfactoriamente");
                 }
             }
             catch(Exception e){
                 try {
-                    JOptionPane.showMessageDialog(this, "Selecciona una tabla para borrar "+model_Productos.getValueAt(tbl_Productos.getSelectedRow(), 0));
+                    JOptionPane.showMessageDialog(this, "Selecciona una tabla para borrar ");
                     Pool.getCurrentConexion().rollback(save);
+                    Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, e);
                 } catch (SQLException ex) {
                     Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -714,6 +758,7 @@ public class Practica_App extends javax.swing.JFrame {
             if((boolean)model_FactCliente.getValueAt(tblFact_Cliente.getSelectedRow(), 5) == false){
                 model_FactCliente.setValueAt(true, tblFact_Cliente.getSelectedRow(), 5);   
                 GestionFactura.ActualizarCobro((String)model_FactCliente.getValueAt(tblFact_Cliente.getSelectedRow(), 0));
+                Pool.getCurrentConexion().commit();
             }
             else{
                 JOptionPane.showMessageDialog(this, "La factura ya está cobrada");              
@@ -745,6 +790,22 @@ public class Practica_App extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnModificarProdActionPerformed
+
+    private void btnRestablecerTBLProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerTBLProdActionPerformed
+        Savepoint save = null;
+        try {
+            save = Pool.getCurrentConexion().setSavepoint();
+            model_Productos.setRowCount(0);
+            GestionProducto.cargarTablaProducto(model_Productos);
+        } catch (SQLException ex) {
+            try {
+                Pool.getCurrentConexion().rollback(save);
+                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+    }//GEN-LAST:event_btnRestablecerTBLProdActionPerformed
 
 
     
@@ -810,6 +871,7 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrarProdFact;
     private javax.swing.JButton btnFacturar;
     private javax.swing.JButton btnModificarProd;
+    private javax.swing.JButton btnRestablecerTBLProd;
     private javax.swing.JButton btn_EstadoCobro;
     private javax.swing.JCheckBox chbCobrada;
     private javax.swing.JComboBox<Cliente> cmbCliente;

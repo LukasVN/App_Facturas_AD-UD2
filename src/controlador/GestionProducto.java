@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 
@@ -121,6 +122,21 @@ public class GestionProducto {
             Statement sentencia = Pool.getCurrentConexion().createStatement();
             sentencia.executeUpdate(consulta);
         }
+    }
+    public static void InsertarProductoBD(DefaultTableModel tblProductos) throws SQLException {
+        String consulta = "Insert into productos values ('"+tblProductos.getValueAt(tblProductos.getRowCount()-1, 0)+
+                "','"+tblProductos.getValueAt(tblProductos.getRowCount()-1, 1)+
+                "',"+tblProductos.getValueAt(tblProductos.getRowCount()-1, 2)+
+                ","+tblProductos.getValueAt(tblProductos.getRowCount()-1, 3)+
+                ",'"+tblProductos.getValueAt(tblProductos.getRowCount()-1, 4)+
+                "',"+tblProductos.getValueAt(tblProductos.getRowCount()-1, 5)+")";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        sentencia.executeUpdate(consulta);
+    }
+    public static void BorrarProductoBD(DefaultTableModel model_Productos, int fila) throws SQLException {
+        String consulta = "delete from productos where idproducto='"+model_Productos.getValueAt(fila, 0)+"'";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        sentencia.executeUpdate(consulta);
     }
     
     
