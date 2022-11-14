@@ -99,9 +99,7 @@ public class Practica_App extends javax.swing.JFrame {
         lbl_IDClienteFact = new javax.swing.JLabel();
         txtN_Factura = new javax.swing.JTextField();
         txtIdCliente = new javax.swing.JTextField();
-        lblFechaFact = new javax.swing.JLabel();
         lbl_IVAFact = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
         lbl_IDEmpleadoFact = new javax.swing.JLabel();
         txtEmpleado = new javax.swing.JTextField();
         lblCobradaFact = new javax.swing.JLabel();
@@ -160,6 +158,7 @@ public class Practica_App extends javax.swing.JFrame {
         lblFiltro = new javax.swing.JLabel();
         btnFiltroCliente = new javax.swing.JButton();
         cmbClienteConsulta = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,9 +167,6 @@ public class Practica_App extends javax.swing.JFrame {
 
         lbl_IDClienteFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_IDClienteFact.setText("ID Cliente:");
-
-        lblFechaFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblFechaFact.setText("Fecha:");
 
         lbl_IVAFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_IVAFact.setText("IVA:");
@@ -287,60 +283,60 @@ public class Practica_App extends javax.swing.JFrame {
                                 .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtN_Factura)
                                     .addComponent(txtIdCliente)
-                                    .addComponent(cmbProductoFact, 0, 128, Short.MAX_VALUE))
+                                    .addComponent(cmbProductoFact, 0, 129, Short.MAX_VALUE))
                                 .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelFacturarLayout.createSequentialGroup()
-                                        .addGap(42, 42, 42)
-                                        .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblFechaFact, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lbl_IVAFact, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(54, 54, 54)
                                         .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panelFacturarLayout.createSequentialGroup()
-                                                .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                                                .addGap(57, 57, 57))
-                                            .addGroup(panelFacturarLayout.createSequentialGroup()
-                                                .addComponent(cmb_IVA_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(panelFacturarLayout.createSequentialGroup()
                                                 .addComponent(lblCobradaFact, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(chbCobrada, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(lbl_IDEmpleadoFact, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(8, 8, 8)
-                                        .addComponent(txtEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                                                .addGap(0, 0, 0)
+                                                .addComponent(chbCobrada, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(179, 179, 179))
+                                            .addGroup(panelFacturarLayout.createSequentialGroup()
+                                                .addComponent(lbl_IDEmpleadoFact, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(lbl_IVAFact, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cmb_IVA_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(19, 19, 19))))
                                     .addGroup(panelFacturarLayout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(lbl_StockFact)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtStockFact)
+                                        .addComponent(txtStockFact, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnAñadirProdFact, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(21, 21, 21)
-                                        .addComponent(btnBorrarProdFact, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)))))))
+                                        .addComponent(btnBorrarProdFact, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))))))
                 .addGap(64, 64, 64))
         );
         panelFacturarLayout.setVerticalGroup(
             panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturarLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNFactura)
-                    .addComponent(txtN_Factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblFechaFact)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_IDEmpleadoFact)
-                    .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFacturarLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNFactura)
+                            .addComponent(txtN_Factura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFacturarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_IDEmpleadoFact)
+                            .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_IVAFact)
+                            .addComponent(cmb_IVA_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)))
                 .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(chbCobrada, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lbl_IDClienteFact)
                         .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbl_IVAFact)
-                        .addComponent(lblCobradaFact)
-                        .addComponent(cmb_IVA_Fact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblCobradaFact)))
                 .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFacturarLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -585,6 +581,11 @@ public class Practica_App extends javax.swing.JFrame {
         lbl_IDBorrarCliente.setText("ID Cliente:");
 
         btn_BorrarCliente.setText("Borrar");
+        btn_BorrarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BorrarClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFacturasLayout = new javax.swing.GroupLayout(panelFacturas);
         panelFacturas.setLayout(panelFacturasLayout);
@@ -643,6 +644,12 @@ public class Practica_App extends javax.swing.JFrame {
 
         txtFacturado30Consulta.setEditable(false);
         txtFacturado30Consulta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtFacturado30Consulta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFacturado30Consulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFacturado30ConsultaActionPerformed(evt);
+            }
+        });
 
         lblFactConsulta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFactConsulta.setText("Lista de facturas pendientes de cobro:");
@@ -651,6 +658,7 @@ public class Practica_App extends javax.swing.JFrame {
         lblNFactConsulta.setText("Número de facturas pendientes:");
 
         txtNumFactConsulta.setEditable(false);
+        txtNumFactConsulta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tblConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -696,6 +704,8 @@ public class Practica_App extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Actualizar");
+
         javax.swing.GroupLayout panelConsultasLayout = new javax.swing.GroupLayout(panelConsultas);
         panelConsultas.setLayout(panelConsultasLayout);
         panelConsultasLayout.setHorizontalGroup(
@@ -708,20 +718,24 @@ public class Practica_App extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnConsulta30, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtFacturado30Consulta, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(panelConsultasLayout.createSequentialGroup()
-                            .addComponent(lblNFactConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtNumFactConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(12, 12, 12))
-                        .addComponent(lblFactConsulta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelConsultasLayout.createSequentialGroup()
-                        .addComponent(lblFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnFiltroCliente)
-                        .addGap(18, 18, 18)
-                        .addComponent(cmbClienteConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConsultasLayout.createSequentialGroup()
+                            .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(panelConsultasLayout.createSequentialGroup()
+                                    .addComponent(lblFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(btnFiltroCliente))
+                                .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblFactConsulta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConsultasLayout.createSequentialGroup()
+                                        .addComponent(lblNFactConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNumFactConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(30, 30, 30)
+                            .addComponent(cmbClienteConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         panelConsultasLayout.setVerticalGroup(
@@ -743,7 +757,8 @@ public class Practica_App extends javax.swing.JFrame {
                 .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFiltro)
                     .addComponent(btnFiltroCliente)
-                    .addComponent(cmbClienteConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbClienteConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -858,39 +873,45 @@ public class Practica_App extends javax.swing.JFrame {
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
         Savepoint save = null;
-        try {
-            save = Pool.getCurrentConexion().setSavepoint();
-            Boolean existe = false;
-            //Comprobación de si el producto a añadir tiene id y nombre únicos:
-            for(int i=0;i<model_Productos.getRowCount();i++){
-                if(txtAñadir_IDProd.getText().trim().equals(model_Productos.getValueAt(i, 0)) || txtAñadir_NombProd.getText().trim().equals(model_Productos.getValueAt(i, 1))){
-                    existe = true;
-                }
-            }
-            if(existe == true){
-                JOptionPane.showMessageDialog(this, "El ID/Nombre del producto ya existen");
-            }
-            else{
-                try {
-                    GestionProducto.CargarFilaProducto(model_Productos, txtAñadir_IDProd.getText().trim(), txtAñadir_NombProd.getText().trim(),
-                        Integer.parseInt(txt_AñadirStock.getText().trim()), Float.parseFloat(txt_AñadirPrecio.getText().trim()),
-                        txtCategoriaP.getText().trim(), Float.parseFloat(cmb_IVAProd.getSelectedItem().toString()));
-                    GestionProducto.InsertarProductoBD(model_Productos);
-                    Pool.getCurrentConexion().commit();
-                    JOptionPane.showMessageDialog(this, "Producto añadido satisfactoriamente");
-                } catch (SQLException ex) {
-                    try {
-                        Pool.getCurrentConexion().rollback(save);
-                        Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex1) {
-                        Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
+        if(!txtAñadir_IDProd.getText().isEmpty() && !txtAñadir_NombProd.getText().isEmpty() && !txt_AñadirStock.getText().isEmpty() 
+                && !txt_AñadirPrecio.getText().isEmpty() && !txtCategoriaP.getText().isEmpty()) {
+            try {
+                save = Pool.getCurrentConexion().setSavepoint();
+                Boolean existe = false;
+                //Comprobación de si el producto a añadir tiene id y nombre únicos:
+                for(int i=0;i<model_Productos.getRowCount();i++){
+                    if(txtAñadir_IDProd.getText().trim().equals(model_Productos.getValueAt(i, 0)) || txtAñadir_NombProd.getText().trim().equals(model_Productos.getValueAt(i, 1))){
+                        existe = true;
                     }
                 }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                if(existe == true){
+                    JOptionPane.showMessageDialog(this, "El ID/Nombre del producto ya existen");
+                }
+                else{
+                    try {
+                        GestionProducto.CargarFilaProducto(model_Productos, txtAñadir_IDProd.getText().trim(), txtAñadir_NombProd.getText().trim(),
+                            Integer.parseInt(txt_AñadirStock.getText().trim()), Float.parseFloat(txt_AñadirPrecio.getText().trim()),
+                            txtCategoriaP.getText().trim(), Float.parseFloat(cmb_IVAProd.getSelectedItem().toString()));
+                        GestionProducto.InsertarProductoBD(model_Productos);
+                        Pool.getCurrentConexion().commit();
+                        JOptionPane.showMessageDialog(this, "Producto añadido satisfactoriamente");
+                    } catch (SQLException ex) {
+                        try {
+                            Pool.getCurrentConexion().rollback(save);
+                            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex1) {
+                            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
+                    }
+                }
 
+            } catch (SQLException ex) {
+                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Por favor rellene todos los campos");
+        }
     }//GEN-LAST:event_btnAñadirActionPerformed
 
     private void txt_AñadirPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_AñadirPrecioKeyTyped
@@ -953,6 +974,31 @@ public class Practica_App extends javax.swing.JFrame {
         cmbClienteConsulta.setVisible(true);
         }else{cmbClienteConsulta.setVisible(false);}
     }//GEN-LAST:event_btnFiltroClienteActionPerformed
+
+    private void txtFacturado30ConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacturado30ConsultaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFacturado30ConsultaActionPerformed
+
+    private void btn_BorrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BorrarClienteActionPerformed
+        Savepoint save = null;
+        if(!txt_BorrarID_Cliente.getText().trim().isEmpty()){
+        try {
+            if(GestionCliente.ComprobarCobradasID_Cliente(txt_BorrarID_Cliente.getText().trim()) == true && GestionCliente.ExisteCliente(txt_BorrarID_Cliente.getText().trim()) == true){
+                GestionCliente.Cliente_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                JOptionPane.showMessageDialog(this, "Cliente insertado en el historico");
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "El cliente no existe o tiene facturas pendientes");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Por favor rellene el campo ID Cliente");
+        }
+    }//GEN-LAST:event_btn_BorrarClienteActionPerformed
 
 
     
@@ -1029,6 +1075,7 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JComboBox<Producto> cmbProductoFact;
     private javax.swing.JComboBox<String> cmb_IVAProd;
     private javax.swing.JComboBox<String> cmb_IVA_Fact;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1040,7 +1087,6 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JLabel lblCobradaFact;
     private javax.swing.JLabel lblConsulta30;
     private javax.swing.JLabel lblFactConsulta;
-    private javax.swing.JLabel lblFechaFact;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JLabel lblNFactConsulta;
     private javax.swing.JLabel lblNFactura;
@@ -1071,7 +1117,6 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JTextField txtCategoriaP;
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtFacturado30Consulta;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtN_Factura;
     private javax.swing.JTextField txtNumFactConsulta;

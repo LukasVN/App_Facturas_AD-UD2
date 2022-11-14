@@ -1,11 +1,9 @@
 package controlador;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 import modelo.Cliente;
+import java.sql.*;
 
 /**
  *
@@ -48,6 +46,36 @@ public class GestionCliente {
         }
         sentencia.close();
         rs.close();     
+    }
+    public static boolean ComprobarCobradasID_Cliente(String idcliente) throws SQLException {
+        String consulta = "Select cli.idcliente,fact.cobrada from cliente cli, factura fact where cli.idcliente='"+idcliente+"' and cli.idcliente=fact.idcliente";
+        Boolean cobrada = true;
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        ResultSet rs = sentencia.executeQuery(consulta);
+        
+        while(rs.next()){
+            if(rs.getBoolean(2) == false){
+                cobrada = false;
+            }
+        }
+        sentencia.close();
+        rs.close();
+        return cobrada;   
+    }
+    public static boolean ExisteCliente(String idcliente) throws SQLException {
+        String consulta = "Select idcliente from cliente where idcliente=?";
+        PreparedStatement sentencia;
+        sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        if(sentencia.executeUpdate()== 0){
+            return false;
+        }
+        return true;
+    }
+    public static void Cliente_a_Historico(String idcliente) throws SQLException {
+        String consulta ="Insert into historicocliente select * from cliente where idcliente='"+idcliente+"'";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        sentencia.executeUpdate(consulta); 
+        sentencia.close();
     }
     
 }
