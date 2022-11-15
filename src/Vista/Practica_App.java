@@ -983,12 +983,20 @@ public class Practica_App extends javax.swing.JFrame {
         Savepoint save = null;
         if(!txt_BorrarID_Cliente.getText().trim().isEmpty()){
         try {
-            if(GestionCliente.ComprobarCobradasID_Cliente(txt_BorrarID_Cliente.getText().trim()) == true && GestionCliente.ExisteCliente(txt_BorrarID_Cliente.getText().trim()) == true){
-                GestionCliente.Cliente_a_Historico(txt_BorrarID_Cliente.getText().trim());
-                JOptionPane.showMessageDialog(this, "Cliente insertado en el historico");
+            if(GestionCliente.ExisteCliente(txt_BorrarID_Cliente.getText().trim()) == true){
+                if(GestionCliente.ComprobarCobradasID_Cliente(txt_BorrarID_Cliente.getText().trim()) == true){
+                    GestionCliente.Cliente_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                    
+                    JOptionPane.showMessageDialog(this, "Cliente insertado en el historico");
+                }
+            
+                else{
+                    GestionFactura.Factura_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                    JOptionPane.showMessageDialog(this, "El cliente no puede borrarse debido a que tiene facturas pendientes");
+                }
             }
             else{
-                JOptionPane.showMessageDialog(this, "El cliente no existe o tiene facturas pendientes");
+                JOptionPane.showMessageDialog(this, "El cliente no existe");
             }
             
         } catch (SQLException ex) {

@@ -63,13 +63,13 @@ public class GestionCliente {
         return cobrada;   
     }
     public static boolean ExisteCliente(String idcliente) throws SQLException {
-        String consulta = "Select idcliente from cliente where idcliente=?";
-        PreparedStatement sentencia;
-        sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
-        if(sentencia.executeUpdate()== 0){
-            return false;
+        String consulta = "Select idcliente from cliente where idcliente='"+idcliente+"'";
+        Statement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        ResultSet rs = sentencia.executeQuery(consulta);
+        if(rs.next()){
+            return true;
         }
-        return true;
+        return false;
     }
     public static void Cliente_a_Historico(String idcliente) throws SQLException {
         String consulta ="Insert into historicocliente select * from cliente where idcliente='"+idcliente+"'";
@@ -77,5 +77,7 @@ public class GestionCliente {
         sentencia.executeUpdate(consulta); 
         sentencia.close();
     }
+    
+    
     
 }
