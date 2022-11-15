@@ -77,7 +77,13 @@ public class GestionCliente {
         sentencia.executeUpdate(consulta); 
         sentencia.close();
     }
-    
+    public static void BorradoCliente(String idcliente) throws SQLException {
+        String consulta ="Delete from cliente where idcliente=?";
+        PreparedStatement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        sentencia.setString(1, idcliente);
+        sentencia.executeUpdate();
+        sentencia.close();
+    }
     
     
 }

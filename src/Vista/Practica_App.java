@@ -983,15 +983,16 @@ public class Practica_App extends javax.swing.JFrame {
         Savepoint save = null;
         if(!txt_BorrarID_Cliente.getText().trim().isEmpty()){
         try {
+            save = Pool.getCurrentConexion().setSavepoint();
             if(GestionCliente.ExisteCliente(txt_BorrarID_Cliente.getText().trim()) == true){
                 if(GestionCliente.ComprobarCobradasID_Cliente(txt_BorrarID_Cliente.getText().trim()) == true){
                     GestionCliente.Cliente_a_Historico(txt_BorrarID_Cliente.getText().trim());
-                    
-                    JOptionPane.showMessageDialog(this, "Cliente insertado en el historico");
+                    GestionFactura.Factura_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                    GestionCliente.BorradoCliente(txt_BorrarID_Cliente.getText().trim());
+                    JOptionPane.showMessageDialog(this, "Cliente borrado satisfactoriamente");
                 }
             
-                else{
-                    GestionFactura.Factura_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                else{                  
                     JOptionPane.showMessageDialog(this, "El cliente no puede borrarse debido a que tiene facturas pendientes");
                 }
             }
@@ -1000,7 +1001,12 @@ public class Practica_App extends javax.swing.JFrame {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                Pool.getCurrentConexion().rollback(save);
+                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex1) {
+                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
         }
         else{

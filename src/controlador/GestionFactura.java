@@ -26,8 +26,15 @@ public class GestionFactura {
             else{
                 facturas+=rs.getString(1);
             }
-        }     
-        String consulta_insert = "Insert into historicofacturadoporcliente values ('"+idcliente+"',concat(cli.nombrecli,cli.apellidocli),sum(det.precio),'"+facturas+"'";
+        }  
+        rs.close();
+        sentencia.close();
+        String consulta_insert = "Insert into historicofacturadoporcliente values (?,concat(cli.nombrecli,cli.apellidocli),sum(det.precio),?";
+        PreparedStatement sentenciapr = Pool.getCurrentConexion().prepareStatement(consulta_insert);
+        sentenciapr.setString(1, idcliente);
+        sentenciapr.setString(2, facturas);
+        sentenciapr.executeUpdate();
+        sentenciapr.close();
     }
     
 }
