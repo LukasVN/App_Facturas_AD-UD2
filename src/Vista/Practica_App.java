@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista;
 
 import controlador.GestionCliente;
+import controlador.GestionEmpleado;
 import controlador.GestionFactura;
 import controlador.GestionProducto;
 import controlador.Pool;
@@ -57,7 +54,7 @@ public class Practica_App extends javax.swing.JFrame {
             model_FactCliente.setRowCount(0);
             model_Consulta = (DefaultTableModel) tblConsulta.getModel();
             model_Productos.setRowCount(0);
-            //Falta cargarlo*************
+            GestionProducto.cargarTablaProducto(model_Productos);
             
             //Longitud máxima de cuadros de texto:
             txtIdCliente.setDocument(new LimiteLongitudJTextField(10));
@@ -93,7 +90,11 @@ public class Practica_App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        Crear_Cliente = new javax.swing.JDialog();
+        lblExisteCliente = new javax.swing.JLabel();
+        btnSi = new javax.swing.JButton();
+        btnNo = new javax.swing.JButton();
+        menu = new javax.swing.JTabbedPane();
         panelFacturar = new javax.swing.JPanel();
         lblNFactura = new javax.swing.JLabel();
         lbl_IDClienteFact = new javax.swing.JLabel();
@@ -160,6 +161,48 @@ public class Practica_App extends javax.swing.JFrame {
         cmbClienteConsulta = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
+        Crear_Cliente.setLocation(new java.awt.Point(300, 200));
+        Crear_Cliente.setMinimumSize(new java.awt.Dimension(390, 285));
+        Crear_Cliente.setResizable(false);
+
+        lblExisteCliente.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblExisteCliente.setText("El cliente no existe, deseas crearlo?");
+
+        btnSi.setText("Si");
+
+        btnNo.setText("No");
+        btnNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Crear_ClienteLayout = new javax.swing.GroupLayout(Crear_Cliente.getContentPane());
+        Crear_Cliente.getContentPane().setLayout(Crear_ClienteLayout);
+        Crear_ClienteLayout.setHorizontalGroup(
+            Crear_ClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Crear_ClienteLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addGroup(Crear_ClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(Crear_ClienteLayout.createSequentialGroup()
+                        .addComponent(btnSi, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblExisteCliente))
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        Crear_ClienteLayout.setVerticalGroup(
+            Crear_ClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Crear_ClienteLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(lblExisteCliente)
+                .addGap(103, 103, 103)
+                .addGroup(Crear_ClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSi)
+                    .addComponent(btnNo))
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblNFactura.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -168,11 +211,29 @@ public class Practica_App extends javax.swing.JFrame {
         lbl_IDClienteFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_IDClienteFact.setText("ID Cliente:");
 
+        txtN_Factura.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtN_FacturaFocusLost(evt);
+            }
+        });
+
+        txtIdCliente.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdClienteFocusLost(evt);
+            }
+        });
+
         lbl_IVAFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_IVAFact.setText("IVA:");
 
         lbl_IDEmpleadoFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_IDEmpleadoFact.setText("ID Empleado:");
+
+        txtEmpleado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtEmpleadoFocusLost(evt);
+            }
+        });
 
         lblCobradaFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCobradaFact.setText("Cobrada:");
@@ -200,18 +261,17 @@ public class Practica_App extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblFacturacionProd);
 
         lblTotalFact.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblTotalFact.setText("Total:");
+        lblTotalFact.setText("Total (Iva incluido):");
 
         btnFacturar.setText("Facturar");
+        btnFacturar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFacturarActionPerformed(evt);
+            }
+        });
 
         lblProductoFact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblProductoFact.setText("Producto:");
-
-        cmbProductoFact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbProductoFactActionPerformed(evt);
-            }
-        });
 
         btnAñadirProdFact.setText("Añadir producto");
         btnAñadirProdFact.addActionListener(new java.awt.event.ActionListener() {
@@ -256,6 +316,11 @@ public class Practica_App extends javax.swing.JFrame {
         });
 
         cmb_IVA_Fact.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "21", "10", "4" }));
+        cmb_IVA_Fact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_IVA_FactActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelFacturarLayout = new javax.swing.GroupLayout(panelFacturar);
         panelFacturar.setLayout(panelFacturarLayout);
@@ -265,8 +330,8 @@ public class Practica_App extends javax.swing.JFrame {
                 .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelFacturarLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTotalFact, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTotalFact)
+                        .addGap(8, 8, 8)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(btnFacturar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -348,8 +413,8 @@ public class Practica_App extends javax.swing.JFrame {
                             .addComponent(txtStockFact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAñadirProdFact))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                        .addGap(22, 22, 22)
                         .addGroup(panelFacturarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnFacturar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -359,7 +424,7 @@ public class Practica_App extends javax.swing.JFrame {
                 .addGap(26, 26, 26))
         );
 
-        jTabbedPane1.addTab("Facturar", panelFacturar);
+        menu.addTab("Facturar", panelFacturar);
 
         lbl_IDProd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbl_IDProd.setText("ID Producto:");
@@ -529,7 +594,7 @@ public class Practica_App extends javax.swing.JFrame {
                 .addGap(37, 37, 37))
         );
 
-        jTabbedPane1.addTab("Productos", panelProductos);
+        menu.addTab("Productos", panelProductos);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("ID Cliente:");
@@ -635,7 +700,7 @@ public class Practica_App extends javax.swing.JFrame {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Clientes", panelFacturas);
+        menu.addTab("Clientes", panelFacturas);
 
         lblConsulta30.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblConsulta30.setText("Calcular total facturado en los últimos 30 días:");
@@ -764,26 +829,24 @@ public class Practica_App extends javax.swing.JFrame {
                 .addGap(22, 22, 22))
         );
 
-        jTabbedPane1.addTab("Consultas", panelConsultas);
+        menu.addTab("Consultas", panelConsultas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(menu)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(menu)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_EstadoCobroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EstadoCobroActionPerformed
-        Savepoint save = null;
         try{
-            save = Pool.getCurrentConexion().setSavepoint();
             if((boolean)model_FactCliente.getValueAt(tblFact_Cliente.getSelectedRow(), 5) == false){
                 model_FactCliente.setValueAt(true, tblFact_Cliente.getSelectedRow(), 5);
                 GestionFactura.ActualizarCobro((String)model_FactCliente.getValueAt(tblFact_Cliente.getSelectedRow(), 0));
@@ -796,10 +859,12 @@ public class Practica_App extends javax.swing.JFrame {
         catch(Exception e){
             try {
                 JOptionPane.showMessageDialog(this, "Selecciona una fila para confirmar cobro");
-                Pool.getCurrentConexion().rollback(save);
+                Pool.getCurrentConexion().rollback();
             } catch (SQLException ex) {
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } finally{
+            Pool.Cerrar();
         }
     }//GEN-LAST:event_btn_EstadoCobroActionPerformed
 
@@ -808,30 +873,30 @@ public class Practica_App extends javax.swing.JFrame {
             GestionCliente.CargarFilaFacturaCliente(model_FactCliente, cmbCliente.getSelectedItem().toString());
         } catch (SQLException ex) {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            Pool.Cerrar();
         }
     }//GEN-LAST:event_cmbClienteActionPerformed
 
     private void btnRestablecerTBLProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerTBLProdActionPerformed
-        Savepoint save = null;
         try {
-            save = Pool.getCurrentConexion().setSavepoint();
             model_Productos.setRowCount(0);
             GestionProducto.cargarTablaProducto(model_Productos);
         } catch (SQLException ex) {
             try {
-                Pool.getCurrentConexion().rollback(save);
+                Pool.getCurrentConexion().rollback();
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        } finally{
+            Pool.Cerrar();
         }
     }//GEN-LAST:event_btnRestablecerTBLProdActionPerformed
 
     private void btnBorrarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarProdActionPerformed
         if(model_Productos.getRowCount()>0){
-            Savepoint save = null;
             try{
-                save = Pool.getCurrentConexion().setSavepoint();
                 if(GestionProducto.ComprobacionProducto((String)model_Productos.getValueAt(tbl_Productos.getSelectedRow(), 0)) == true){
                     JOptionPane.showMessageDialog(this, "El Producto no puede ser borrado debido a que pertenece a una factura");
                 }
@@ -845,38 +910,37 @@ public class Practica_App extends javax.swing.JFrame {
             catch(Exception e){
                 try {
                     JOptionPane.showMessageDialog(this, "Selecciona una tabla para borrar ");
-                    Pool.getCurrentConexion().rollback(save);
+                    Pool.getCurrentConexion().rollback();
                     Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, e);
                 } catch (SQLException ex) {
                     Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } finally{
+                Pool.Cerrar();
             }
         }
     }//GEN-LAST:event_btnBorrarProdActionPerformed
 
     private void btnModificarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProdActionPerformed
-        Savepoint save = null;
         try {
-            save = Pool.getCurrentConexion().setSavepoint();
             GestionProducto.ModificarTablaProductos(model_Productos);
             Pool.getCurrentConexion().commit();
         } catch (SQLException ex) {
             try {
-                Pool.getCurrentConexion().rollback(save);
                 JOptionPane.showMessageDialog(this, "Error en la modificación/borrado/inserción de los datos");
+                Pool.getCurrentConexion().rollback();
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        } finally{
+            Pool.Cerrar();
         }
     }//GEN-LAST:event_btnModificarProdActionPerformed
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-        Savepoint save = null;
         if(!txtAñadir_IDProd.getText().isEmpty() && !txtAñadir_NombProd.getText().isEmpty() && !txt_AñadirStock.getText().isEmpty() 
                 && !txt_AñadirPrecio.getText().isEmpty() && !txtCategoriaP.getText().isEmpty()) {
-            try {
-                save = Pool.getCurrentConexion().setSavepoint();
                 Boolean existe = false;
                 //Comprobación de si el producto a añadir tiene id y nombre únicos:
                 for(int i=0;i<model_Productos.getRowCount();i++){
@@ -897,17 +961,17 @@ public class Practica_App extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Producto añadido satisfactoriamente");
                     } catch (SQLException ex) {
                         try {
-                            Pool.getCurrentConexion().rollback(save);
+                            Pool.getCurrentConexion().rollback();
                             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (SQLException ex1) {
                             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
                         }
+                    } finally{
+                        Pool.Cerrar();
                     }
                 }
 
-            } catch (SQLException ex) {
-                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
         }
         else{
             JOptionPane.showMessageDialog(this, "Por favor rellene todos los campos");
@@ -934,36 +998,49 @@ public class Practica_App extends javax.swing.JFrame {
 
     private void btnBorrarProdFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarProdFactActionPerformed
 
-        if(model_ProductosFacturar.getRowCount()>=0 ){
+        if(model_ProductosFacturar.getRowCount()>0 ){
             try{
                 float precioB = (float) model_ProductosFacturar.getValueAt(tblFacturacionProd.getSelectedRow(), 2);
-                float total = Float.parseFloat(lbl_Total.getText().trim())-precioB;
-                lbl_Total.setText(total+"");
+                float total = Float.parseFloat(lbl_Total.getText().trim().replace(',', '.').substring(0, lbl_Total.getText().trim().length()-1))-precioB;
+                lbl_Total.setText(String.format("%.2f", total)+"€");
                 model_ProductosFacturar.removeRow(tblFacturacionProd.getSelectedRow());
+                if(model_ProductosFacturar.getRowCount()<=0){
+                    lbl_Total.setText(0+"€");
+                    txtIdCliente.setEditable(true);txtEmpleado.setEditable(true);txtN_Factura.setEditable(true);chbCobrada.setEnabled(true);cmb_IVA_Fact.setEnabled(true);
+                }
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(this, "Añade un producto a la tabla o selecciona una fila para borrar");
-            }}
+                e.printStackTrace();
+            } finally{
+                Pool.Cerrar();
+        }
+        }
     }//GEN-LAST:event_btnBorrarProdFactActionPerformed
 
     private void btnAñadirProdFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdFactActionPerformed
         try {          
-            if(GestionProducto.ComprobarNombreTBL(model_ProductosFacturar,cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim())) == false){
-                GestionProducto.CargarFilaFacturaProd(model_ProductosFacturar, cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim()));               
-            }
-            float total = 0;
-            for(int i=0;i<model_ProductosFacturar.getRowCount();i++){
-                total+=(float)model_ProductosFacturar.getValueAt(i, 2);
-                lbl_Total.setText(total+"");
+            if(!txtIdCliente.getText().isEmpty() && !txtEmpleado.getText().isEmpty() && !txtN_Factura.getText().isEmpty() && 
+               !txtStockFact.getText().isEmpty() && Integer.parseInt(txtStockFact.getText().trim())>0 && Integer.parseInt(txtStockFact.getText().trim())<=GestionProducto.getStockProducto(cmbProductoFact.getSelectedItem().toString())){
+                if(GestionProducto.ComprobarNombreTBL(model_ProductosFacturar,cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim())) == false){
+                    GestionProducto.CargarFilaFacturaProd(model_ProductosFacturar, cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim()));               
+                    txtIdCliente.setEditable(false);txtEmpleado.setEditable(false);txtN_Factura.setEditable(false); chbCobrada.setEnabled(false);cmb_IVA_Fact.setEnabled(false);
                 }
+                float total = 0;
+                for(int i=0;i<model_ProductosFacturar.getRowCount();i++){
+                    total+=(float)model_ProductosFacturar.getValueAt(i, 2)+((float)model_ProductosFacturar.getValueAt(i, 2)*(Float.parseFloat(cmb_IVA_Fact.getSelectedItem().toString())/100));
+                    lbl_Total.setText(String.format("%.2f", total)+"€");
+                    }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Por favor ingrese una cantidad válida y rellene los campos superiores");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            Pool.Cerrar();
         }
     }//GEN-LAST:event_btnAñadirProdFactActionPerformed
-
-    private void cmbProductoFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProductoFactActionPerformed
-
-    }//GEN-LAST:event_cmbProductoFactActionPerformed
 
     private void cmbClienteConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClienteConsultaActionPerformed
         // TODO add your handling code here:
@@ -980,14 +1057,14 @@ public class Practica_App extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFacturado30ConsultaActionPerformed
 
     private void btn_BorrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BorrarClienteActionPerformed
-        Savepoint save = null;
+
         if(!txt_BorrarID_Cliente.getText().trim().isEmpty()){
         try {
-            save = Pool.getCurrentConexion().setSavepoint();
             if(GestionCliente.ExisteCliente(txt_BorrarID_Cliente.getText().trim()) == true){
                 if(GestionCliente.ComprobarCobradasID_Cliente(txt_BorrarID_Cliente.getText().trim()) == true){
                     GestionCliente.Cliente_a_Historico(txt_BorrarID_Cliente.getText().trim());
                     GestionFactura.Factura_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                    GestionFactura.BorradoFacturas(txt_BorrarID_Cliente.getText().trim());
                     GestionCliente.BorradoCliente(txt_BorrarID_Cliente.getText().trim());
                     JOptionPane.showMessageDialog(this, "Cliente borrado satisfactoriamente");
                 }
@@ -1002,17 +1079,101 @@ public class Practica_App extends javax.swing.JFrame {
             
         } catch (SQLException ex) {
             try {
-                Pool.getCurrentConexion().rollback(save);
+                Pool.getCurrentConexion().rollback();
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex1) {
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex1);
             }
+        } finally{
+            Pool.Cerrar();
         }
         }
         else{
             JOptionPane.showMessageDialog(this, "Por favor rellene el campo ID Cliente");
         }
     }//GEN-LAST:event_btn_BorrarClienteActionPerformed
+
+    private void btnFacturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturarActionPerformed
+        Savepoint save = null;
+        if(!txtIdCliente.getText().isEmpty() && !txtEmpleado.getText().isEmpty() && !txtN_Factura.getText().isEmpty() && model_ProductosFacturar.getRowCount()>0){
+            try {
+                GestionEmpleado.AñadirOperativa(txtEmpleado.getText().trim());
+                save = Pool.getCurrentConexion().setSavepoint();
+                try {
+                    GestionFactura.InsertarFactura(txtN_Factura.getText().trim(),txtIdCliente.getText().trim(),txtEmpleado.getText().trim(), chbCobrada.isSelected(),Double.parseDouble(cmb_IVA_Fact.getSelectedItem().toString()), model_ProductosFacturar);
+                    GestionEmpleado.AñadirIncentivo(txtEmpleado.getText().trim(), Float.parseFloat(lbl_Total.getText().trim().replace(',', '.').substring(0, lbl_Total.getText().trim().length()-1)));
+                } catch (SQLException ex) {
+                    Pool.getCurrentConexion().rollback(save);
+                    Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+                } finally{
+                    //Pool.getCurrentConexion().commit();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+            } finally{
+                Pool.Cerrar();
+        }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Rellene todos los campos necesarios de la factura");
+        }
+    }//GEN-LAST:event_btnFacturarActionPerformed
+
+    private void txtIdClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdClienteFocusLost
+        try {
+            if(GestionCliente.ExisteCliente(txtIdCliente.getText().trim()) == false && !txtIdCliente.getText().trim().isEmpty()){
+                Crear_Cliente.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            Pool.Cerrar();
+        }
+    }//GEN-LAST:event_txtIdClienteFocusLost
+
+    private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
+        txtIdCliente.setText("");
+        Crear_Cliente.setVisible(false);
+    }//GEN-LAST:event_btnNoActionPerformed
+
+    private void txtN_FacturaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtN_FacturaFocusLost
+        try {
+            if(GestionFactura.ExisteFactura(txtN_Factura.getText().trim()) == true){
+                JOptionPane.showMessageDialog(this, "La factura ya existe");
+                txtN_Factura.setText("");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            Pool.Cerrar();
+        }
+    }//GEN-LAST:event_txtN_FacturaFocusLost
+
+    private void txtEmpleadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEmpleadoFocusLost
+        try {
+            if(GestionEmpleado.ExisteEmpleado(txtEmpleado.getText().trim()) == false && !txtEmpleado.getText().trim().isEmpty()){              
+                JOptionPane.showMessageDialog(this, "No existe el empleado");
+                txtEmpleado.setText("");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            Pool.Cerrar();
+        }
+    }//GEN-LAST:event_txtEmpleadoFocusLost
+
+    private void cmb_IVA_FactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_IVA_FactActionPerformed
+        float total = 0;
+        if(model_ProductosFacturar.getRowCount()>0){
+        for(int i=0;i<model_ProductosFacturar.getRowCount();i++){
+            total+=(float)model_ProductosFacturar.getValueAt(i, 2)+((float)model_ProductosFacturar.getValueAt(i, 2)*(Float.parseFloat(cmb_IVA_Fact.getSelectedItem().toString())/100));
+            lbl_Total.setText(String.format("%.2f", total)+"€");
+            }
+        }
+        else{
+            lbl_Total.setText(0+"€");
+        }
+    }//GEN-LAST:event_cmb_IVA_FactActionPerformed
 
 
     
@@ -1072,6 +1233,7 @@ public class Practica_App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog Crear_Cliente;
     private javax.swing.JButton btnAñadir;
     private javax.swing.JButton btnAñadirProdFact;
     private javax.swing.JButton btnBorrarProd;
@@ -1080,7 +1242,9 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JButton btnFacturar;
     private javax.swing.JButton btnFiltroCliente;
     private javax.swing.JButton btnModificarProd;
+    private javax.swing.JButton btnNo;
     private javax.swing.JButton btnRestablecerTBLProd;
+    private javax.swing.JButton btnSi;
     private javax.swing.JButton btn_BorrarCliente;
     private javax.swing.JButton btn_EstadoCobro;
     private javax.swing.JCheckBox chbCobrada;
@@ -1096,10 +1260,10 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblCategoriaProd;
     private javax.swing.JLabel lblCobradaFact;
     private javax.swing.JLabel lblConsulta30;
+    private javax.swing.JLabel lblExisteCliente;
     private javax.swing.JLabel lblFactConsulta;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JLabel lblNFactConsulta;
@@ -1118,6 +1282,7 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_IVAProd;
     private javax.swing.JLabel lbl_StockFact;
     private javax.swing.JLabel lbl_Total;
+    private javax.swing.JTabbedPane menu;
     private javax.swing.JPanel panelConsultas;
     private javax.swing.JPanel panelFacturar;
     private javax.swing.JPanel panelFacturas;

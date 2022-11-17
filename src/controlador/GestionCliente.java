@@ -68,14 +68,17 @@ public class GestionCliente {
         ResultSet rs = sentencia.executeQuery(consulta);
         if(rs.next()){
             return true;
-        }
+        }        
+        rs.close();
+        sentencia.close();
         return false;
     }
-    public static void Cliente_a_Historico(String idcliente) throws SQLException {
+    public static void Cliente_a_Historico(String idcliente) throws SQLException {     
         String consulta ="Insert into historicocliente select * from cliente where idcliente='"+idcliente+"'";
         Statement sentencia = Pool.getCurrentConexion().createStatement();
         sentencia.executeUpdate(consulta); 
         sentencia.close();
+        
     }
     public static void BorradoCliente(String idcliente) throws SQLException {
         String consulta ="Delete from cliente where idcliente=?";

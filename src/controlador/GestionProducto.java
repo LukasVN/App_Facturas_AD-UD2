@@ -76,11 +76,10 @@ public class GestionProducto {
     
     public static boolean ComprobarNombreTBL(DefaultTableModel tbl_ProductosFact,String nombreProd, int stock) throws SQLException {
         for(int i=0; i<tbl_ProductosFact.getRowCount();i++){
-            if(nombreProd.equals(tbl_ProductosFact.getValueAt(i, 0))){
-                int aux_cant = Integer.parseInt(tbl_ProductosFact.getValueAt(i, 1).toString());
+            int aux_cant = Integer.parseInt(tbl_ProductosFact.getValueAt(i, 1).toString());
+            if(nombreProd.equals(tbl_ProductosFact.getValueAt(i, 0))){           
                 tbl_ProductosFact.setValueAt(aux_cant+stock, i, 1);
                 tbl_ProductosFact.setValueAt(getPrecioProducto(nombreProd)*(stock+aux_cant), i, 2);
-
                 return true;
             }
         }        
@@ -101,6 +100,22 @@ public class GestionProducto {
         rs.close();  
         return precio;
     }
+    public static int getStockProducto(String nomProducto) throws SQLException {
+        int stock = 0;
+        String consulta = "Select stock from productos where nomproducto="+"'"+nomProducto+"'";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+
+        ResultSet rs = sentencia.executeQuery(consulta);
+        
+        while(rs.next()){
+            stock = rs.getInt(1);
+
+        }
+        sentencia.close();
+        rs.close();  
+        return stock;
+    }
+    
 
     public static boolean ComprobacionProducto(String id_producto) throws SQLException {     
         boolean enFactura = false;
