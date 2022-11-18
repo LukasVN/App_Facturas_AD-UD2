@@ -905,6 +905,8 @@ public class Practica_App extends javax.swing.JFrame {
                     model_Productos.removeRow(tbl_Productos.getSelectedRow());
                     Pool.getCurrentConexion().commit();
                     JOptionPane.showMessageDialog(this, "Producto borrado satisfactoriamente");
+                    //Refresca el combo de productos en factura
+                    GestionProducto.cargarCombo(cmbProductoFact);
                 }
             }
             catch(Exception e){
@@ -925,9 +927,12 @@ public class Practica_App extends javax.swing.JFrame {
         try {
             GestionProducto.ModificarTablaProductos(model_Productos);
             Pool.getCurrentConexion().commit();
+            JOptionPane.showMessageDialog(this, "Productos modificados satisfactoriamente");
+            //Refresca el combo de productos en factura
+            GestionProducto.cargarCombo(cmbProductoFact);
         } catch (SQLException ex) {
             try {
-                JOptionPane.showMessageDialog(this, "Error en la modificación/borrado/inserción de los datos");
+                JOptionPane.showMessageDialog(this, "Error en la modificación de los datos");
                 Pool.getCurrentConexion().rollback();
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex1) {
@@ -957,8 +962,11 @@ public class Practica_App extends javax.swing.JFrame {
                             Integer.parseInt(txt_AñadirStock.getText().trim()), Float.parseFloat(txt_AñadirPrecio.getText().trim()),
                             txtCategoriaP.getText().trim(), Float.parseFloat(cmb_IVAProd.getSelectedItem().toString()));
                         GestionProducto.InsertarProductoBD(model_Productos);
-                        Pool.getCurrentConexion().commit();
+                        Pool.getCurrentConexion().commit();                        
                         JOptionPane.showMessageDialog(this, "Producto añadido satisfactoriamente");
+                        txtAñadir_IDProd.setText("");txtAñadir_NombProd.setText("");txt_AñadirPrecio.setText("");txt_AñadirStock.setText("");txtCategoriaP.setText("");
+                        //Refresca el combo de productos en factura
+                        GestionProducto.cargarCombo(cmbProductoFact);
                     } catch (SQLException ex) {
                         try {
                             Pool.getCurrentConexion().rollback();
@@ -1003,6 +1011,12 @@ public class Practica_App extends javax.swing.JFrame {
                 float precioB = (float) model_ProductosFacturar.getValueAt(tblFacturacionProd.getSelectedRow(), 2);
                 float total = Float.parseFloat(lbl_Total.getText().trim().replace(',', '.').substring(0, lbl_Total.getText().trim().length()-1))-precioB;
                 lbl_Total.setText(String.format("%.2f", total)+"€");
+                //p.setStock_Producto(getStockProducto(p)-stock)
+                for(int i=0;i<model_ProductosFacturar.getRowCount();i++){
+                    if(model_ProductosFacturar.getValueAt(tblFacturacionProd.getSelectedRow(), 0).equals(cmbProductoFact.getItemAt(i).toString()));
+                        Producto p =(Producto)(cmbProductoFact.getItemAt(i));
+                        p.setStock_Producto((p.getStock_Producto()+Integer.parseInt(model_ProductosFacturar.getValueAt(tblFacturacionProd.getSelectedRow(), 1).toString())));
+                }
                 model_ProductosFacturar.removeRow(tblFacturacionProd.getSelectedRow());
                 if(model_ProductosFacturar.getRowCount()<=0){
                     lbl_Total.setText(0+"€");
@@ -1104,15 +1118,17 @@ public class Practica_App extends javax.swing.JFrame {
                     GestionFactura.InsertarFactura(txtN_Factura.getText().trim(),txtIdCliente.getText().trim(),txtEmpleado.getText().trim(), chbCobrada.isSelected(),Double.parseDouble(cmb_IVA_Fact.getSelectedItem().toString()), model_ProductosFacturar);
                     GestionEmpleado.AñadirIncentivo(txtEmpleado.getText().trim(), Float.parseFloat(lbl_Total.getText().trim().replace(',', '.').substring(0, lbl_Total.getText().trim().length()-1)));
                     GestionProducto.ActualizarStock(model_ProductosFacturar,cmbProductoFact);
+                    //Actualiza la tabla de productos de la otra ventana:
+                    model_Productos.setRowCount(0);
+                    GestionProducto.cargarTablaProducto(model_Productos);
                 } catch (SQLException ex) {
                     Pool.getCurrentConexion().rollback(save);
                     Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
-                } finally{
-                    //Pool.getCurrentConexion().commit();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             } finally{
+                //Pool.getCurrentConexion().commit();
                 Pool.Cerrar();
         }
         }
