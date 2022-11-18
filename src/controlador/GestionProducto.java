@@ -1,10 +1,7 @@
 package controlador;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import javax.swing.JComboBox;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
 
@@ -58,7 +55,7 @@ public class GestionProducto {
             tbl_Productos.setValueAt(cat_Prod, tbl_Productos.getRowCount() -1, 4);
             tbl_Productos.setValueAt(iva_Prod/100, tbl_Productos.getRowCount() -1, 5);
     }
-    public static void CargarFilaFacturaProd(DefaultTableModel tbl_ProductosFact, String nom_Prod, int stock) throws SQLException {
+    public static void CargarFilaFacturaProd(DefaultTableModel tbl_ProductosFact, String nom_Prod, int stock,Producto p) throws SQLException {
         String consulta = "Select * from productos where nomproducto="+"'"+nom_Prod+"'";
         Statement sentencia = Pool.getCurrentConexion().createStatement();
 
@@ -69,19 +66,21 @@ public class GestionProducto {
             tbl_ProductosFact.setValueAt(nom_Prod, tbl_ProductosFact.getRowCount() -1, 0);
             tbl_ProductosFact.setValueAt(stock, tbl_ProductosFact.getRowCount() -1, 1);
             tbl_ProductosFact.setValueAt(getPrecioProducto(nom_Prod), tbl_ProductosFact.getRowCount() -1, 2);
+            p.setStock_Producto(getStockProducto(p)-stock);
         }
         sentencia.close();
         rs.close();     
     }
     
     public static boolean ComprobarNombreTBL(DefaultTableModel tbl_ProductosFact,String nombreProd, int stock) throws SQLException {
+        //(aux_cant+stock)<=getPrecioProducto(nombreProd)
         for(int i=0; i<tbl_ProductosFact.getRowCount();i++){
             int aux_cant = Integer.parseInt(tbl_ProductosFact.getValueAt(i, 1).toString());
             if(nombreProd.equals(tbl_ProductosFact.getValueAt(i, 0))){           
                 tbl_ProductosFact.setValueAt(aux_cant+stock, i, 1);
                 tbl_ProductosFact.setValueAt(getPrecioProducto(nombreProd)*(stock+aux_cant), i, 2);
                 return true;
-            }
+            }           
         }        
         return false;        
     }
@@ -100,19 +99,8 @@ public class GestionProducto {
         rs.close();  
         return precio;
     }
-    public static int getStockProducto(String nomProducto) throws SQLException {
-        int stock = 0;
-        String consulta = "Select stock from productos where nomproducto="+"'"+nomProducto+"'";
-        Statement sentencia = Pool.getCurrentConexion().createStatement();
-
-        ResultSet rs = sentencia.executeQuery(consulta);
-        
-        while(rs.next()){
-            stock = rs.getInt(1);
-
-        }
-        sentencia.close();
-        rs.close();  
+    public static int getStockProducto(Producto p) throws SQLException {
+        int stock = p.getStock_Producto();      
         return stock;
     }
     
@@ -153,6 +141,31 @@ public class GestionProducto {
         Statement sentencia = Pool.getCurrentConexion().createStatement();
         sentencia.executeUpdate(consulta);
     }
-    
+    public static boolean ComprobarStockTabla(String nomproducto, DefaultTableModel model_productosF, int stock) throws SQLException {
+        for(int i=0;i<model_productosF.getRowCount();i++){
+            int newstock= stock+Integer.parseInt(model_productosF.getValueAt(i, 1).toString());
+            if(model_productosF.getValueAt(i, 0) == nomproducto && newstock<=getPrecioProducto(nomproducto)){
+                return true;
+            }
+            
+        }
+        return false;
+    }
+
+    public static void ActualizarStock(DefaultTableModel tblProductoF, JComboBox cmbProd) throws SQLException {
+        String consulta = "Update productos set stock=? where nomproducto=?";
+        PreparedStatement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        for(int i=0;i<tblProductoF.getRowCount();i++){
+            Producto p= (Producto)cmbProd.getItemAt(i);
+            if(p.getNom_Producto()==tblProductoF.getValueAt(i, 0)){
+                sentencia.setInt(1, p.getStock_Producto());
+                sentencia.setString(2, p.getNom_Producto());
+                sentencia.executeUpdate();
+            }
+        }
+        sentencia.close();
+        
+        
+    }
     
 }

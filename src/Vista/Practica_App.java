@@ -1021,9 +1021,10 @@ public class Practica_App extends javax.swing.JFrame {
     private void btnAñadirProdFactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProdFactActionPerformed
         try {          
             if(!txtIdCliente.getText().isEmpty() && !txtEmpleado.getText().isEmpty() && !txtN_Factura.getText().isEmpty() && 
-               !txtStockFact.getText().isEmpty() && Integer.parseInt(txtStockFact.getText().trim())>0 && Integer.parseInt(txtStockFact.getText().trim())<=GestionProducto.getStockProducto(cmbProductoFact.getSelectedItem().toString())){
+               !txtStockFact.getText().isEmpty() && Integer.parseInt(txtStockFact.getText().trim())>0 
+                    && Integer.parseInt(txtStockFact.getText().trim())<=GestionProducto.getStockProducto((Producto)cmbProductoFact.getSelectedItem())){
                 if(GestionProducto.ComprobarNombreTBL(model_ProductosFacturar,cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim())) == false){
-                    GestionProducto.CargarFilaFacturaProd(model_ProductosFacturar, cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim()));               
+                    GestionProducto.CargarFilaFacturaProd(model_ProductosFacturar, cmbProductoFact.getSelectedItem().toString(),Integer.parseInt(txtStockFact.getText().trim()),(Producto)cmbProductoFact.getSelectedItem());  
                     txtIdCliente.setEditable(false);txtEmpleado.setEditable(false);txtN_Factura.setEditable(false); chbCobrada.setEnabled(false);cmb_IVA_Fact.setEnabled(false);
                 }
                 float total = 0;
@@ -1033,7 +1034,7 @@ public class Practica_App extends javax.swing.JFrame {
                     }
             }
             else{
-                JOptionPane.showMessageDialog(this, "Por favor ingrese una cantidad válida y rellene los campos superiores");
+                JOptionPane.showMessageDialog(this, "Por favor rellene los campos superiores e ingrese una cantidad correcta de stock");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
@@ -1102,6 +1103,7 @@ public class Practica_App extends javax.swing.JFrame {
                 try {
                     GestionFactura.InsertarFactura(txtN_Factura.getText().trim(),txtIdCliente.getText().trim(),txtEmpleado.getText().trim(), chbCobrada.isSelected(),Double.parseDouble(cmb_IVA_Fact.getSelectedItem().toString()), model_ProductosFacturar);
                     GestionEmpleado.AñadirIncentivo(txtEmpleado.getText().trim(), Float.parseFloat(lbl_Total.getText().trim().replace(',', '.').substring(0, lbl_Total.getText().trim().length()-1)));
+                    GestionProducto.ActualizarStock(model_ProductosFacturar,cmbProductoFact);
                 } catch (SQLException ex) {
                     Pool.getCurrentConexion().rollback(save);
                     Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
