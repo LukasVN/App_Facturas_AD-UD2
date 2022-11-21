@@ -167,4 +167,19 @@ public class GestionProducto {
         
         
     }
+    public static String GetID_ProductoBD(String nomproducto) throws SQLException {
+        String idproducto="";
+        String consulta="Select idproducto from productos where nomproducto='"+nomproducto+"'";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+
+        ResultSet rs = sentencia.executeQuery(consulta);
+        
+        while(rs.next()){
+            idproducto = rs.getString(1);
+
+        }
+        sentencia.close();
+        rs.close();  
+        return idproducto;
+    }
 }

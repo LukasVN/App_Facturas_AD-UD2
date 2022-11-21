@@ -31,16 +31,23 @@ public class GestionFactura {
         }  
         rs.close();
         sentencia.close();
-        //Query con fallo
-        String consulta_insert = "Insert into historicofacturadoporcliente values (?,concat(cli.nombrecli,cli.apellidocli),sum(det.precio),?) select cli.nombrecli,apellidocli,det.precio from cliente cli,detalle det";
+        String consulta_insert = "Insert into historicofacturadoporcliente values "
+                + "(?,"
+                + "(select concat(cli.nombrecli,apellidocli) from cliente cli where cli.idcliente='"+idcliente+"'),"
+                + "(select sum(det.precio) from detalle det inner join factura fac on fac.numfactura=det.numfactura where fac.idcliente='"+idcliente+"'),"
+                + "?)";
         PreparedStatement sentenciapr = Pool.getCurrentConexion().prepareStatement(consulta_insert);
         sentenciapr.setString(1, idcliente);
         sentenciapr.setString(2, facturas);
         sentenciapr.executeUpdate();
         sentenciapr.close();
     }
-    public static void BorradoFacturas(String idcliente) {
-        
+    public static void BorradoFacturas(String idcliente) throws SQLException {
+        String consulta ="Delete from factura where idcliente=?";
+        PreparedStatement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        sentencia.setString(1, idcliente);
+        sentencia.executeUpdate();
+        sentencia.close();
     }
     public static void RealizarFactura() {
         
@@ -74,7 +81,7 @@ public class GestionFactura {
             sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
             sentencia.setString(1, numfactura);
             sentencia.setInt(2, i + 1);
-            sentencia.setString(3, model_ProductosFacturar.getValueAt(i, 0).toString());
+            sentencia.setString(3, GestionProducto.GetID_ProductoBD(model_ProductosFacturar.getValueAt(i, 0).toString().trim()));
             sentencia.setInt(4, Integer.parseInt(model_ProductosFacturar.getValueAt(i, 1).toString()));
             sentencia.setDouble(5, GestionProducto.getPrecioProducto(model_ProductosFacturar.getValueAt(i, 0).toString()));
             sentencia.executeUpdate();
@@ -82,6 +89,14 @@ public class GestionFactura {
         }      
         
         
+    }
+
+    public static void BorradoDetalle(String idcliente) throws SQLException {
+        String consulta ="Delete det from detalle det inner join factura fact on det.numfactura=fact.numfactura where fact.idcliente=?";
+        PreparedStatement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        sentencia.setString(1, idcliente);
+        sentencia.executeUpdate();
+        sentencia.close();
     }
 
 }

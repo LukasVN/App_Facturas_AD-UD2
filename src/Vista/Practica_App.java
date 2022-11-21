@@ -1192,11 +1192,17 @@ public class Practica_App extends javax.swing.JFrame {
                 if(GestionCliente.ComprobarCobradasID_Cliente(txt_BorrarID_Cliente.getText().trim()) == true){
                     GestionCliente.Cliente_a_Historico(txt_BorrarID_Cliente.getText().trim());
                     GestionFactura.Factura_a_Historico(txt_BorrarID_Cliente.getText().trim());
+                    GestionFactura.BorradoDetalle(txt_BorrarID_Cliente.getText().trim());
                     GestionFactura.BorradoFacturas(txt_BorrarID_Cliente.getText().trim());
                     GestionCliente.BorradoCliente(txt_BorrarID_Cliente.getText().trim());
                     Pool.getCurrentConexion().commit();
+                    txtIdCliente.setText("");
+                    //Refresca el combo de facturas
+                    cmbBoxModelC = new DefaultComboBoxModel<>();
+                    cmbCliente.setModel(cmbBoxModelC);
+                    GestionCliente.cargarCombo(cmbCliente);
                     JOptionPane.showMessageDialog(this, "Cliente borrado satisfactoriamente");
-                }            
+                }
                 else{                  
                     JOptionPane.showMessageDialog(this, "El cliente no puede borrarse debido a que tiene facturas pendientes");
                 }
