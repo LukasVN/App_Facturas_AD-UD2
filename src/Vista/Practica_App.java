@@ -817,6 +817,11 @@ public class Practica_App extends javax.swing.JFrame {
         lblConsulta30.setText("Calcular total facturado en los últimos 30 días:");
 
         btnConsulta30.setText("Calcular");
+        btnConsulta30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulta30ActionPerformed(evt);
+            }
+        });
 
         txtFacturado30Consulta.setEditable(false);
         txtFacturado30Consulta.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1366,6 +1371,10 @@ public class Practica_App extends javax.swing.JFrame {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_nuevo_idclienteFocusLost
+
+    private void btnConsulta30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulta30ActionPerformed
+        //txtFacturado30Consulta.setText(GestionFactura.GetFacturadoLast30());
+    }//GEN-LAST:event_btnConsulta30ActionPerformed
 
 
     

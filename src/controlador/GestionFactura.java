@@ -99,4 +99,8 @@ public class GestionFactura {
         sentencia.close();
     }
 
+//    public static String GetFacturadoLast30() {
+//        Date fechalimit = new Date(Date.from(Instant.now()));
+//    }
+
 }
