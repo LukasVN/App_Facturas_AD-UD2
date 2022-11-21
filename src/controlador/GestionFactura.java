@@ -31,7 +31,8 @@ public class GestionFactura {
         }  
         rs.close();
         sentencia.close();
-        String consulta_insert = "Insert into historicofacturadoporcliente values (?,concat(cli.nombrecli,cli.apellidocli),sum(det.precio),?";
+        //Query con fallo
+        String consulta_insert = "Insert into historicofacturadoporcliente values (?,concat(cli.nombrecli,cli.apellidocli),sum(det.precio),?) select cli.nombrecli,apellidocli,det.precio from cliente cli,detalle det";
         PreparedStatement sentenciapr = Pool.getCurrentConexion().prepareStatement(consulta_insert);
         sentenciapr.setString(1, idcliente);
         sentenciapr.setString(2, facturas);

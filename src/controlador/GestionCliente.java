@@ -87,6 +87,17 @@ public class GestionCliente {
         sentencia.executeUpdate();
         sentencia.close();
     }
+
+    public static void AñadirCliente(String idcliente, String nombre, String apellido, String dir) throws SQLException {
+        String consulta="Insert into cliente values(?,?,?,?)";
+        PreparedStatement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        sentencia.setString(1, idcliente);
+        sentencia.setString(2, nombre);
+        sentencia.setString(3, apellido);
+        sentencia.setString(4, dir);
+        sentencia.executeUpdate();
+        sentencia.close();
+    }
     
     
 }
