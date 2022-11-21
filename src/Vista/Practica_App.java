@@ -1186,7 +1186,6 @@ public class Practica_App extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFacturado30ConsultaActionPerformed
 
     private void btn_BorrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BorrarClienteActionPerformed
-
         if(!txt_BorrarID_Cliente.getText().trim().isEmpty()){
         try {
             if(GestionCliente.ExisteCliente(txt_BorrarID_Cliente.getText().trim()) == true){
@@ -1197,8 +1196,7 @@ public class Practica_App extends javax.swing.JFrame {
                     GestionCliente.BorradoCliente(txt_BorrarID_Cliente.getText().trim());
                     Pool.getCurrentConexion().commit();
                     JOptionPane.showMessageDialog(this, "Cliente borrado satisfactoriamente");
-                }
-            
+                }            
                 else{                  
                     JOptionPane.showMessageDialog(this, "El cliente no puede borrarse debido a que tiene facturas pendientes");
                 }
@@ -1243,8 +1241,12 @@ public class Practica_App extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
             } finally{
-                //Pool.getCurrentConexion().commit();
-                Pool.Cerrar();
+                try {
+                    Pool.getCurrentConexion().commit();
+                    Pool.Cerrar();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+                }
         }
         }
         else{

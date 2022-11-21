@@ -77,9 +77,10 @@ public class GestionFactura {
             sentencia.setString(3, model_ProductosFacturar.getValueAt(i, 0).toString());
             sentencia.setInt(4, Integer.parseInt(model_ProductosFacturar.getValueAt(i, 1).toString()));
             sentencia.setDouble(5, GestionProducto.getPrecioProducto(model_ProductosFacturar.getValueAt(i, 0).toString()));
-        }
-        sentencia.executeUpdate();
-        sentencia.close();
+            sentencia.executeUpdate();
+            sentencia.close();
+        }      
+        
         
     }
 
