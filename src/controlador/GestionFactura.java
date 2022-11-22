@@ -2,6 +2,7 @@ package controlador;
 
 import java.sql.*;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -99,8 +100,18 @@ public class GestionFactura {
         sentencia.close();
     }
 
-//    public static String GetFacturadoLast30() {
-//        Date fechalimit = new Date(Date.from(Instant.now()));
-//    }
+    public static float GetFacturadoLast30() throws SQLException {
+        float facturado=0;
+        Date fechalimit = new Date(Date.from(Instant.now().minus(30,ChronoUnit.DAYS)).getTime());
+        String consulta ="select sum(precio*cantidad) as Importe from detalle det inner join factura fact on det.numfactura=fact.numfactura where fact.fecha>="+fechalimit.toString();
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        ResultSet rs = sentencia.executeQuery(consulta);
+        if(rs.next()){
+            facturado = rs.getFloat(1);
+        }
+        sentencia.close();
+        return facturado;
+        
+    }
 
 }

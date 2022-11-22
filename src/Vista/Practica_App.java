@@ -44,6 +44,7 @@ public class Practica_App extends javax.swing.JFrame {
             GestionCliente.cargarCombo(cmbClienteConsulta);
             cmbClienteConsulta.setVisible(false);
             
+            
             //Declaración y carga de tablas modelo:
             model_Productos = (DefaultTableModel) tbl_Productos.getModel();
             model_Productos.setRowCount(0);
@@ -55,6 +56,7 @@ public class Practica_App extends javax.swing.JFrame {
             model_Consulta = (DefaultTableModel) tblConsulta.getModel();
             model_Productos.setRowCount(0);
             GestionProducto.cargarTablaProducto(model_Productos);
+            
             
             //Longitud máxima de cuadros de texto:
             txtIdCliente.setDocument(new LimiteLongitudJTextField(10));
@@ -1373,7 +1375,11 @@ public class Practica_App extends javax.swing.JFrame {
     }//GEN-LAST:event_nuevo_idclienteFocusLost
 
     private void btnConsulta30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulta30ActionPerformed
-        //txtFacturado30Consulta.setText(GestionFactura.GetFacturadoLast30());
+        try {
+            txtFacturado30Consulta.setText(GestionFactura.GetFacturadoLast30()+"");
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnConsulta30ActionPerformed
 
 
