@@ -113,5 +113,40 @@ public class GestionFactura {
         return facturado;
         
     }
+    public static int getF_Pendientes() throws SQLException {
+        int pendientes = 0;
+        String sqlComand = "select count(*) from factura where cobrada=0";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        ResultSet rs = sentencia.executeQuery(sqlComand);
+        if (rs.next()) {
+            pendientes = rs.getInt(1);
+        }
+        return pendientes;
+    }
 
+    public static void cargarTablaConsultaClientesFiltro(String idcliente,DefaultTableModel model_Consulta) throws SQLException {
+        model_Consulta.setRowCount(0);
+        String sqlComand = "select cli.nombrecli,count(fact.numfactura) from factura fact inner join cliente cli on cli.idcliente=fact.idcliente where cobrada=0 group by cli.nombrecli";
+        if (!idcliente.equals("")) {
+            sqlComand = sqlComand.substring(0, sqlComand.indexOf("0") + 1) + " and cli.idcliente='" + idcliente + "'" + sqlComand.substring(sqlComand.indexOf("0") + 1);
+        }
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        ResultSet rs = sentencia.executeQuery(sqlComand);
+        while (rs.next()) {
+            model_Consulta.setRowCount(model_Consulta.getRowCount() + 1);
+            model_Consulta.setValueAt(rs.getString(1), model_Consulta.getRowCount() - 1, 0);
+            model_Consulta.setValueAt(rs.getString(2), model_Consulta.getRowCount() - 1, 1);
+        }
+    }
+    public static void cargarTablaConsultaClientes(DefaultTableModel model_Consulta) throws SQLException {
+        model_Consulta.setRowCount(0);
+        String sqlComand = "select cli.nombrecli,count(fact.numfactura) from factura fact inner join cliente cli on cli.idcliente=fact.idcliente where cobrada=0 group by cli.nombrecli";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        ResultSet rs = sentencia.executeQuery(sqlComand);
+        while (rs.next()) {
+            model_Consulta.setRowCount(model_Consulta.getRowCount() + 1);
+            model_Consulta.setValueAt(rs.getString(1), model_Consulta.getRowCount() - 1, 0);
+            model_Consulta.setValueAt(rs.getString(2), model_Consulta.getRowCount() - 1, 1);
+        }
+    }
 }
