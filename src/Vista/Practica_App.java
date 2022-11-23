@@ -1472,6 +1472,10 @@ public class Practica_App extends javax.swing.JFrame {
                 nuevo_idcliente.setText("");
                 JOptionPane.showMessageDialog(this, "El ID introducido ya existe");
             }
+            else if(GestionCliente.ExisteClienteHistorico(nuevo_idcliente.getText().trim()) == true){
+                Cliente_Historico.setVisible(true);
+                Nuevo_Cliente.setVisible(false);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
         }
