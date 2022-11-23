@@ -40,7 +40,7 @@ public class Practica_App extends javax.swing.JFrame {
             cmbProductoFact.setModel(cmbBoxModelP);
             cmbClienteConsulta.setModel(cmbBoxModelConsulta);
             GestionProducto.cargarCombo(cmbProductoFact);
-            GestionCliente.cargarCombo(cmbCliente);
+            GestionCliente.cargarCombo(cmbCliente);        
             GestionCliente.cargarCombo(cmbClienteConsulta);
             cmbClienteConsulta.setVisible(false);
             
@@ -70,6 +70,9 @@ public class Practica_App extends javax.swing.JFrame {
             nuevo_direccion.setDocument(new LimiteLongitudJTextField(30));
             //Facturas Pendientes:
             txtNumFactConsulta.setText(GestionFactura.getF_Pendientes()+"");
+            //Solución a bugs
+            cmbBoxModelC.removeElementAt(0);
+            cmbBoxModelConsulta.removeElementAt(0);
             
         } catch (SQLException ex) {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,6 +117,11 @@ public class Practica_App extends javax.swing.JFrame {
         nuevo_direccion = new javax.swing.JTextField();
         btncrearcli = new javax.swing.JButton();
         btncancelarcli = new javax.swing.JButton();
+        Cliente_Historico = new javax.swing.JDialog();
+        lblExisteClienteH = new javax.swing.JLabel();
+        btnSiH = new javax.swing.JButton();
+        btnNoH = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         menu = new javax.swing.JTabbedPane();
         panelFacturar = new javax.swing.JPanel();
         lblNFactura = new javax.swing.JLabel();
@@ -215,7 +223,7 @@ public class Practica_App extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblExisteCliente))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Crear_ClienteLayout.setVerticalGroup(
             Crear_ClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,6 +326,63 @@ public class Practica_App extends javax.swing.JFrame {
                     .addComponent(btncrearcli)
                     .addComponent(btncancelarcli))
                 .addContainerGap(47, Short.MAX_VALUE))
+        );
+
+        Cliente_Historico.setLocation(new java.awt.Point(300, 200));
+        Cliente_Historico.setMinimumSize(new java.awt.Dimension(400, 200));
+        Cliente_Historico.setResizable(false);
+
+        lblExisteClienteH.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblExisteClienteH.setText("¿Deseas recuperarlo?");
+
+        btnSiH.setText("Si");
+        btnSiH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiHActionPerformed(evt);
+            }
+        });
+
+        btnNoH.setText("No");
+        btnNoH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNoHActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("El cliente se registró anteriormente");
+
+        javax.swing.GroupLayout Cliente_HistoricoLayout = new javax.swing.GroupLayout(Cliente_Historico.getContentPane());
+        Cliente_Historico.getContentPane().setLayout(Cliente_HistoricoLayout);
+        Cliente_HistoricoLayout.setHorizontalGroup(
+            Cliente_HistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Cliente_HistoricoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblExisteClienteH)
+                .addGap(119, 119, 119))
+            .addGroup(Cliente_HistoricoLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addGroup(Cliente_HistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                    .addGroup(Cliente_HistoricoLayout.createSequentialGroup()
+                        .addComponent(btnSiH, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNoH, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(49, 49, 49))
+        );
+        Cliente_HistoricoLayout.setVerticalGroup(
+            Cliente_HistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Cliente_HistoricoLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblExisteClienteH)
+                .addGap(35, 35, 35)
+                .addGroup(Cliente_HistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSiH)
+                    .addComponent(btnNoH))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -782,9 +847,9 @@ public class Practica_App extends javax.swing.JFrame {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btn_EstadoCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE))
                         .addGap(46, 46, 46))
                     .addGroup(panelFacturasLayout.createSequentialGroup()
                         .addGroup(panelFacturasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -913,7 +978,7 @@ public class Practica_App extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtFacturado30Consulta, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 675, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(panelConsultasLayout.createSequentialGroup()
                             .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -935,11 +1000,11 @@ public class Practica_App extends javax.swing.JFrame {
                                     .addComponent(btnActTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(panelConsultasLayout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(btnConsulta30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnActualizarFP, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                                    .addGap(0, 0, Short.MAX_VALUE))))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                                        .addComponent(btnActualizarFP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGap(307, 307, 307))))))
+                .addGap(33, 33, 33))
         );
         panelConsultasLayout.setVerticalGroup(
             panelConsultasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1301,8 +1366,14 @@ public class Practica_App extends javax.swing.JFrame {
 
     private void txtIdClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdClienteFocusLost
         try {
-            if(GestionCliente.ExisteCliente(txtIdCliente.getText().trim()) == false && !txtIdCliente.getText().trim().isEmpty()){
+            if(GestionCliente.ExisteCliente(txtIdCliente.getText().trim()) == false && !txtIdCliente.getText().trim().isEmpty() && GestionCliente.ExisteClienteHistorico(txtIdCliente.getText().trim()) == false){
                 Crear_Cliente.setVisible(true);
+            }
+            else if(GestionCliente.ExisteClienteHistorico(txtIdCliente.getText().trim()) == true && !txtIdCliente.getText().trim().isEmpty()){
+                Cliente_Historico.setVisible(true);
+            }
+            else{
+                
             }
         } catch (SQLException ex) {
             Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
@@ -1432,6 +1503,20 @@ public class Practica_App extends javax.swing.JFrame {
             Pool.Cerrar();
         }
     }//GEN-LAST:event_btnActTablaActionPerformed
+
+    private void btnSiHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiHActionPerformed
+        try {
+            Cliente c = GestionCliente.BuscarClienteIDHistorico(txtIdCliente.getText().trim());
+            GestionCliente.AñadirClienteFromHistorico(c);
+        } catch (SQLException ex) {
+            Logger.getLogger(Practica_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSiHActionPerformed
+
+    private void btnNoHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoHActionPerformed
+        Cliente_Historico.dispose();
+        txtIdCliente.setText("");
+    }//GEN-LAST:event_btnNoHActionPerformed
     
     public class LimiteLongitudJTextField extends PlainDocument {
 
@@ -1489,6 +1574,7 @@ public class Practica_App extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog Cliente_Historico;
     private javax.swing.JDialog Crear_Cliente;
     private javax.swing.JDialog Nuevo_Cliente;
     private javax.swing.JButton btnActTabla;
@@ -1502,8 +1588,10 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JButton btnFiltroCliente;
     private javax.swing.JButton btnModificarProd;
     private javax.swing.JButton btnNo;
+    private javax.swing.JButton btnNoH;
     private javax.swing.JButton btnRestablecerTBLProd;
     private javax.swing.JButton btnSi;
+    private javax.swing.JButton btnSiH;
     private javax.swing.JButton btn_BorrarCliente;
     private javax.swing.JButton btn_EstadoCobro;
     private javax.swing.JButton btncancelarcli;
@@ -1519,6 +1607,7 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1528,6 +1617,7 @@ public class Practica_App extends javax.swing.JFrame {
     private javax.swing.JLabel lblCobradaFact;
     private javax.swing.JLabel lblConsulta30;
     private javax.swing.JLabel lblExisteCliente;
+    private javax.swing.JLabel lblExisteClienteH;
     private javax.swing.JLabel lblFactConsulta;
     private javax.swing.JLabel lblFiltro;
     private javax.swing.JLabel lblNFactConsulta;

@@ -34,7 +34,7 @@ public class GestionFactura {
         sentencia.close();
         String consulta_insert = "Insert into historicofacturadoporcliente values "
                 + "(?,"
-                + "(select concat(cli.nombrecli,apellidocli) from cliente cli where cli.idcliente='"+idcliente+"'),"
+                + "(select concat(cli.nombrecli,' ',apellidocli) from cliente cli where cli.idcliente='"+idcliente+"'),"
                 + "(select sum(det.precio) from detalle det inner join factura fac on fac.numfactura=det.numfactura where fac.idcliente='"+idcliente+"'),"
                 + "?)";
         PreparedStatement sentenciapr = Pool.getCurrentConexion().prepareStatement(consulta_insert);

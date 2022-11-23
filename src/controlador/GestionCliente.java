@@ -24,7 +24,6 @@ public class GestionCliente {
             }
         }
         rs.close();
-        cmbCliente.removeItemAt(0); //Borramos ahora el null. Para que quede solo con los datos
     }
     public static void CargarFilaFacturaCliente(DefaultTableModel tbl_FactCliente, String id_Cliente) throws SQLException {
         String consulta = "Select distinct f.numfactura,cli.nombrecli,cli.apellidocli,f.fecha,sum(precio) as importe,f.cobrada from cliente cli,factura f,detalle d "
@@ -95,6 +94,45 @@ public class GestionCliente {
         sentencia.setString(2, nombre);
         sentencia.setString(3, apellido);
         sentencia.setString(4, dir);
+        sentencia.executeUpdate();
+        sentencia.close();
+    }
+
+    public static boolean ExisteClienteHistorico(String idcliente) throws SQLException {
+        String consulta = "Select hidcliente from historicocliente where hidcliente='"+idcliente+"'";
+        Statement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        ResultSet rs = sentencia.executeQuery(consulta);
+        if(rs.next()){
+            return true;
+        }        
+        rs.close();
+        sentencia.close();
+        return false;
+    }
+
+    public static Cliente BuscarClienteIDHistorico(String idcliente) throws SQLException{
+        Cliente c = null;
+        String consulta ="Select * from historicocliente where hidcliente='"+idcliente+"'";
+        Statement sentencia = Pool.getCurrentConexion().createStatement();
+        ResultSet rs = sentencia.executeQuery(consulta);
+        
+        if(rs.next()){
+            c.setId_Cliente(rs.getString(1));
+            c.setNom_Cliente(rs.getString(2));
+            c.setAp_Cliente(rs.getString(3));
+            c.setDir_Cliente(rs.getString(4));
+        }
+        sentencia.close();
+        rs.close();
+        return c;   
+    }
+    public static void AñadirClienteFromHistorico(Cliente c) throws SQLException {
+        String consulta ="Insert into cliente values(?,?,?,?)";
+        PreparedStatement sentencia = Pool.getCurrentConexion().prepareStatement(consulta);
+        sentencia.setString(1, c.getId_Cliente());
+        sentencia.setString(2, c.getNom_Cliente());
+        sentencia.setString(3, c.getAp_Cliente());
+        sentencia.setString(4, c.getDir_Cliente());
         sentencia.executeUpdate();
         sentencia.close();
     }
