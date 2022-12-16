@@ -1,6 +1,9 @@
 # App_Facturas_AD-UD2
 Es necesario modificar el archivo Pool estableciendo la ip y nombre de la base de datos para que funcionen las consultas de la aplicación
 Implementación de la base de datos con ejemplos:
+
+
+
 drop database if exists practicaud2;
 create schema practicaud2;
 
