@@ -1,4 +1,6 @@
 # App_Facturas_AD-UD2
+⚠️PROYECTO NO COMPLETO Y NO EXTENTO DE BUGS⚠️
+
 Es necesario modificar el archivo Pool estableciendo la ip y nombre de la base de datos para que funcionen las consultas de la aplicación
 Implementación de la base de datos con ejemplos:
 
